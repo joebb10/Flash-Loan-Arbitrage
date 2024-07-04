@@ -65,8 +65,8 @@ If you find these contracts useful, please consider giving this repository a sta
 
 If you find these smart contracts useful and would like to support its development, consider making a donation to the following wallet address:
 
-
+```bash
 0x86FFC6C3782D2b551c5dF462eD5B47d56c539F19
-
+```
 
 Your contributions help maintain and improve these smart contracts for the community. Thank you for your support!
