@@ -52,27 +52,25 @@ contract SimpleFlashLoan is FlashLoanSimpleReceiverBase {
         bytes calldata params
     )  external override returns (bool) {
         
-        //Logic goes here
 
-        // Example: Assume you're trading the borrowed asset for WETH
-        address weth = 0x52D800ca262522580CeBAD275395ca6e7598C014; // This is the WETH address for Ethereum mainnet
-        address[] memory path = new address[](2);
+        
+        address weth = 0x52D800ca262522580CeBAD275395ca6e7598C014; 
         path[0] = asset;
         path[1] = weth;
         
-        uint256 deadline = block.timestamp + 15; // Using a 15-second deadline for the swap
+        uint256 deadline = block.timestamp + 15; 
 
-        // Approve Uniswap to spend the flash loaned asset
+   
         IERC20(asset).approve(uniswapRouterAddress, amount);
         
-        // Swap asset for WETH
+        
         uniswapRouter.swapExactTokensForTokens(amount, 0, path, address(this), deadline);
         
         uint256 totalAmount = amount + premium;
         
-        // Ensure you have enough funds to repay. This might involve swapping WETH back to the asset or another mechanism based on your trading strategy.
+      
         
-        // Approve the Aave pool to withdraw the asset for loan repayment
+       
         IERC20(asset).approve(address(POOL), totalAmount);
 
         return true;
