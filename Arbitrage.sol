@@ -57,7 +57,7 @@ contract Arbitrage is Ownable {
     ) public onlyOwner {
         usdtContract.safeTransferFrom(msg.sender, address(this), usdtAmount);
         wbtcContract.safeTransferFrom(msg.sender, address(this), wbtcAmount);
-        uint deadline = block.timestamp + 1; // This can be adjusted based on your needs
+        uint deadline = block.timestamp + 1; 
 
         uint[] memory usdtAmounts = uniswap.getAmountsOut(usdtAmount, path1);
         uint usdtOutAmount = usdtAmounts[usdtAmounts.length - 1];
