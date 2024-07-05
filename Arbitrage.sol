@@ -11,7 +11,7 @@ contract Arbitrage is Ownable {
 
     IUniswapV2Router02 public uniswap;
     IUniswapV2Router02 public sushiswap;
-    uint public slippageTolerance; // in basis points, i.e. 100 means 1%
+    uint public slippageTolerance;
     IERC20 public wbtcContract;
     IERC20 public usdtContract;
 
@@ -28,7 +28,7 @@ contract Arbitrage is Ownable {
         wbtcContract = IERC20(_wbtcContract);
         usdtContract = IERC20(_usdtContract);
         
-        // Approve the Uniswap and Sushiswap contracts to spend the maximum amount of tokens
+       
         usdtContract.safeApprove(_uniswap, type(uint256).max);
         usdtContract.safeApprove(_sushiswap, type(uint256).max);
         wbtcContract.safeApprove(_uniswap, type(uint256).max);
@@ -45,7 +45,7 @@ contract Arbitrage is Ownable {
         address[] calldata path1,
         address[] calldata path2
     ) external {
-        // Call the performArbitrage function
+       
         performArbitrage(usdtAmount, wbtcAmount, path1, path2);
     }
 
@@ -74,15 +74,15 @@ contract Arbitrage is Ownable {
         require(usdtInAmount <= usdtAmount * (10000 + slippageTolerance) / 10000, "Arbitrage not profitable");
         require(wbtcInAmount <= wbtcAmount * (10000 + slippageTolerance) / 10000, "Arbitrage not profitable");
 
-        // Buy assets on Uniswap
+       
         uniswap.swapExactTokensForTokens(usdtAmount, usdtOutAmount, path1, address(this), deadline);
         uniswap.swapExactTokensForTokens(wbtcAmount, wbtcOutAmount, path1, address(this), deadline);
 
-        // The amount of tokens we have after buying on Uniswap
+        
         uint newUsdtAmount = IERC20(path1[path1.length - 1]).balanceOf(address(this));
         uint newWbtcAmount = IERC20(path2[path2.length - 1]).balanceOf(address(this));
 
-        // Sell assets on Sushiswap
+        
         sushiswap.swapExactTokensForTokens(newUsdtAmount, usdtInAmount, path2, address(this), deadline);
         sushiswap.swapExactTokensForTokens(newWbtcAmount, wbtcInAmount, path2, address(this), deadline);
     }
